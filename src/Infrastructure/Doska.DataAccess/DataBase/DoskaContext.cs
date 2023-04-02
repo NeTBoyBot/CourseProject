@@ -1,4 +1,5 @@
-﻿using Doska.DataAccess.EntityConfiguration.Configuraion;
+﻿//using Doska.DataAccess.EntityConfiguration.Configuraion;
+using Doska.DataAccess.EntityConfiguration.Configuraion;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,8 @@ namespace Doska.DataAccess.DataBase
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new ChatConfiguration());
-            modelBuilder.ApplyConfiguration(new AdConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            //modelBuilder.ApplyConfiguration(new AdConfiguration());
 
         }
     }

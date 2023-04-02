@@ -16,17 +16,7 @@ namespace Doska.Domain
 
         public string Password { get; set; }
 
-        public string Region { get; set; }
-
-        public ICollection<Ad> Ads { get; set; }
-
-        public ICollection<FavoriteAd> FavoriteAds { get; set; }
-
-        public ICollection<Chat> Chats { get; set; }
-
-        public ICollection<Comment> Comments { get; set; }
-
-        public string KodBase64 { get; set; }
+        public ICollection<Order> Orders { get; set; }
 
     }
 }

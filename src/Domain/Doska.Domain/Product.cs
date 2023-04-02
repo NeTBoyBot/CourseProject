@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Doska.Contracts.UserDto
+namespace Doska.Domain
 {
-    public class InfoUserResponse
+    public class Product
     {
         public Guid Id { get; set; }
 
+        public Guid CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
         public string Name { get; set; }
 
+        public decimal Price { get; set; }
     }
 }

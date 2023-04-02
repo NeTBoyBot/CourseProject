@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Doska.AppServices.IRepository;
-using Doska.Contracts.AdDto;
 using Doska.Contracts.UserDto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +18,14 @@ namespace Doska.AppServices.Services.User
     public class UserService : IUserService
     {
         public readonly IUserRepository _userRepository;
-        public readonly IAdRepository _adRepository;
         public IConfiguration _configuration;
         public IClaimAcessor claimAccessor;
         public readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper,IAdRepository adRepository,IClaimAcessor acessor,IConfiguration conf)
+        public UserService(IUserRepository userRepository, IMapper mapper,IClaimAcessor acessor,IConfiguration conf)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _adRepository = adRepository;
             claimAccessor = acessor;
             _configuration = conf;
         }
@@ -152,12 +149,13 @@ namespace Doska.AppServices.Services.User
             return result;
         }
 
-        public async Task<Guid> Register(RegisterRequest registerRequest,byte[] file, CancellationToken cancellationToken)
+        public async Task<Guid> Register(RegisterRequest registerRequest, CancellationToken cancellationToken)
         {
+
             var user = _mapper.Map<Domain.User>(registerRequest);
       
             var existinguser = await _userRepository.FindWhere(user => user.Name == registerRequest.Name, cancellationToken);
-            user.KodBase64 = Convert.ToBase64String(file);
+            
             if (existinguser != null)
             {
                 throw new Exception($"Такой пользователь уже существует! ");

@@ -11,43 +11,43 @@ using System.Threading.Tasks;
 
 namespace Doska.DataAccess.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class ProductRepository : IProductRepository
     {
-        public readonly IBaseRepository<Category> _baseRepository;
+        public readonly IBaseRepository<Product> _baseRepository;
 
-        public CategoryRepository(IBaseRepository<Category> baseRepository)
+        public ProductRepository(IBaseRepository<Product> baseRepository)
         {
             _baseRepository = baseRepository;
         }
 
-        public Task AddAsync(Category model)
+        public Task AddAsync(Product model)
         {
             return _baseRepository.AddAsync(model);
         }
 
-        public async Task DeleteAsync(Category model)
+        public async Task DeleteAsync(Product model)
         {
             await _baseRepository.DeleteAsync(model);
         }
 
-        public async Task EditCategoryAsync(Category edit)
+        public async Task EditProductAsync(Product edit)
         {
             await _baseRepository.UpdateAsync(edit);
         }
 
-        public async Task<Category> FindById(Guid id)
+        public async Task<Product> FindById(Guid id)
         {
             return await _baseRepository.GetByIdAsync(id);
         }
 
-        public async Task<Category> FindWhere(Expression<Func<Category, bool>> predicate, CancellationToken token)
+        public async Task<Product> FindWhere(Expression<Func<Product, bool>> predicate, CancellationToken token)
         {
             var data = _baseRepository.GetAllFiltered(predicate);
 
             return await data.Where(predicate).FirstOrDefaultAsync(token);
         }
 
-        public IQueryable<Category> GetAll()
+        public IQueryable<Product> GetAll()
         {
             return _baseRepository.GetAll();
         }

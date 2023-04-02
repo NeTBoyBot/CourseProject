@@ -1,4 +1,4 @@
-﻿using Doska.DataAccess.EntityConfiguration.Configuraion;
+﻿//using Doska.DataAccess.EntityConfiguration.Configuraion;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

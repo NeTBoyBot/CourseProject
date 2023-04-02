@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace Doska.Domain
 {
-    public class Category
+    public class Order
     {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public Guid UserId { get; set; }
+
+        public User User { get; set; }
+
+        public Guid ProductId { get; set; }
+
+        public Product Product { get; set; }
+
     }
 }

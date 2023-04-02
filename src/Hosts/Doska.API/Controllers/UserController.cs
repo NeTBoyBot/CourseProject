@@ -20,25 +20,26 @@ namespace Doska.API.Controllers
 
         [HttpPost("/Register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Register(RegisterRequest request,IFormFile file, CancellationToken token)
+        public async Task<IActionResult> Register([FromBody]RegisterRequest request, CancellationToken token)
         {
-            byte[] photo;
-            await using (var ms = new MemoryStream())
-            await using (var fs = file.OpenReadStream())
-            {
-                await fs.CopyToAsync(ms);
-                photo = ms.ToArray();
-            }
-            var user = await _userService.Register(request,photo, token);
+            //byte[] photo;
+            //await using (var ms = new MemoryStream())
+            //await using (var fs = file.OpenReadStream())
+            //{
+            //    await fs.CopyToAsync(ms);
+            //    photo = ms.ToArray();
+            //}
+            var user = await _userService.Register(request, token);
             return Created("",user);
         }
 
         [HttpPost("/Login")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> login(LoginRequest request, CancellationToken Canctoken)
+        public async Task<IActionResult> login([FromBody]LoginRequest request, CancellationToken Canctoken)
         {
             var token = await _userService.Login(request, Canctoken);
-            return Created("", token);
+            return Ok(new { Token = token });
+            //return Ok(token);
         }
 
         [HttpGet("/allusers")]

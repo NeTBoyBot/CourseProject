@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Doska.Domain;
-using Doska.Contracts.AdDto;
 using Doska.Contracts.UserDto;
 
 namespace Doska.AppServices.MapProfile

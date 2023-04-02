@@ -10,17 +10,16 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Doska.AppServices.MapProfile;
 using Doska.AppServices.IRepository;
-using Doska.AppServices.Services.Ad;
+
 using Doska.DataAccess.Repositories;
 using Doska.Infrastructure.BaseRepository;
-using Doska.AppServices.Services.Categories;
+
 using Doska.AppServices.Services.User;
-using Doska.AppServices.Services.SubCategories;
-using Doska.AppServices.Services.FavoriteAd;
-using Doska.AppServices.Services.Chat;
-using Doska.AppServices.Services.Message;
-using Doska.AppServices.Services.Comment;
+
 using Doska.Infrastructure.Identity;
+using Doska.AppServices.Services.Order;
+using Doska.AppServices.Services.Category;
+using Doska.AppServices.Services.Product;
 
 namespace Doska.Registrar
 {
@@ -28,6 +27,8 @@ namespace Doska.Registrar
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddSingleton<IDbContextOptionsConfigurator<DoskaContext>, DoskaContextConfiguration>();
 
             services.AddDbContext<DoskaContext>((Action<IServiceProvider, DbContextOptionsBuilder>)
@@ -36,36 +37,24 @@ namespace Doska.Registrar
 
             services.AddScoped((Func<IServiceProvider, DbContext>)(sp => sp.GetRequiredService<DoskaContext>()));
 
-            services.AddAutoMapper(typeof(UserMapProfile), typeof(AdMapProfile),
-                typeof(CategoryMapProfile), typeof(SubCategoryMapProfile),
-                typeof(ChatMapProfile), typeof(MessageMapProfile),
-                typeof(FavoriteAdMapProfile), typeof(CommentMapProfile));
+            services.AddAutoMapper(typeof(UserMapProfile),typeof(ProductMapProfile),
+                typeof(CategoryMapProfile),typeof(OrderMapProfile));
 
             // Регистрация объявления
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddTransient<IAdService, AdService>();
-            services.AddTransient<IAdRepository, AdRepository>();
 
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
 
-            services.AddTransient<ISubCategoryService, SubCategoryService>();
-            services.AddTransient<ISubCategoryRepository, SubcategoryRepository>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
 
-            services.AddTransient<IFavoriteAdService, FavoriteAdService>();
-            services.AddTransient<IFavoriteAdRepository, FavoriteAdRepository>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
 
-            services.AddTransient<IChatService, ChatService>();
-            services.AddTransient<IChatRepository, ChatRepository>();
-
-            services.AddTransient<IMessageService, MessageService>();
-            services.AddTransient<IMessageRepository, MessageRepository>();
-
-            services.AddTransient<ICommentService, CommentService>();
-            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductRepository, ProductRepository>();
 
             services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
 

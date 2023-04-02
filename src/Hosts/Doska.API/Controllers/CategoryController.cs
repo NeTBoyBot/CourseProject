@@ -1,52 +1,43 @@
-﻿using Doska.AppServices.Services.Ad;
-using Doska.AppServices.Services.Categories;
-using Doska.Contracts.AdDto;
+﻿using Doska.AppServices.Services.Category;
 using Doska.Contracts.CategoryDto;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace Doska.API.Controllers
 {
-    [ApiController]
     public class CategoryController : ControllerBase
     {
-        ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        ICategoryService _CategoryService;
+        public CategoryController(ICategoryService CategoryService)
         {
-            _categoryService = categoryService;
+            _CategoryService = CategoryService;
         }
-        [HttpGet("/allCategories")]
+
+
+
+        [HttpGet("/allCategorys")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(int take, int skip)
         {
-            var result = await _categoryService.GetAll(take, skip);
+            var result = await _CategoryService.GetAll(take, skip);
 
             return Ok(result);
         }
 
-        //[HttpGet("/CategorieById")]
-        //[ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        //public async Task<IActionResult> GetCategoryById(Guid id)
-        //{
-        //    var result = await _categoryService.GetByIdAsync(id);
-
-        //    return Ok(result);
-        //}
-
         [HttpPost("/createCategory")]
-        [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateAd(string categoryname)
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> CreateCategory(CreateOrEditCategoryRequest request)
         {
-            var result = await _categoryService.CreateCategoryAsync(categoryname);
+            var result = await _CategoryService.CreateCategoryAsync(request);
 
             return Created("", result);
         }
 
         [HttpPut("/updateCategory/{id}")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateAd(Guid id, string categoryname)
+        public async Task<IActionResult> UpdateCategory(Guid id, CreateOrEditCategoryRequest request)
         {
-            var result = await _categoryService.EditCategoryAsync(id, categoryname);
+            var result = await _CategoryService.EditCategoryAsync(id, request);
 
             return Ok(result);
         }
@@ -54,9 +45,9 @@ namespace Doska.API.Controllers
         [HttpDelete("/deleteCategory/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteAd(Guid id, string categoryname)
+        public async Task<IActionResult> DeleteCategory(Guid id, CreateOrEditCategoryRequest request)
         {
-            await _categoryService.DeleteAsync(id);
+            await _CategoryService.DeleteAsync(id);
             return Ok();
         }
     }
